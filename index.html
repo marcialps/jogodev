@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portugol Online - Jogo Educacional</title>
+  <title>Portugol Online -- Professor Marcial</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #b3e0ff; margin: 0; padding: 0; }
     header { background: #2d3e50; color: #fff; padding: 20px; text-align: center; }
     main { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
     .editor, .output, .chat { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin: 10px; padding: 20px; }
@@ -25,21 +25,17 @@
 </head>
 <body>
   <header>
-    <h1>Portugol Online - Jogo Educacional</h1>
-    <p>Simule, teste e compartilhe códigos Portugol com sua turma!</p>
+    <h1>Portugol Online -- Professor Marcial</h1>
+    <p>Desenvolvendo Conhecimento</p>
   </header>
   <main>
     <section class="editor">
       <h2>Editor Portugol</h2>
-      <div class="dicas">
-        <b>Dicas:</b> Use comandos como <code>escreva</code>, <code>leia</code>, <code>para</code>, <code>enquanto</code>, <code>se</code>, <code>senao se</code>, <code>senao</code>, <code>faça</code>, <code>inteiro</code>, <code>real</code>, <code>cadeia</code>.<br>
+      <div class="dicas" id="dicasBox">
+        <b>Dicas:</b> <span id="dicaTexto"></span><br>
         Exemplo:<br>
-        <code>
-        inteiro i<br>
-        para i de 1 até 5 faça<br>
-          escreva(i)<br>
-        fimpara
-        </code>
+        <code id="dicaExemplo"></code>
+        <br><button onclick="proximaDica()" style="margin-top:8px;">Próxima dica</button>
       </div>
       <textarea id="code" spellcheck="false">inteiro i
 para i de 1 até 5 faça
@@ -61,6 +57,52 @@ fimpara</textarea>
     </section>
   </main>
   <script>
+    // Dicas e exemplos variados
+    const dicas = [
+      {
+        dica: 'Use o comando <code>escreva</code> para mostrar mensagens na tela.',
+        exemplo: 'escreva("Olá, mundo!")'
+      },
+      {
+        dica: 'Declare variáveis com <code>inteiro</code>, <code>real</code> ou <code>cadeia</code>.',
+        exemplo: 'inteiro idade\nidade = 18\nescreva(idade)'
+      },
+      {
+        dica: 'Leia valores do usuário com <code>leia</code>.',
+        exemplo: 'cadeia nome\nescreva("Digite seu nome: ")\nleia(nome)\nescreva("Olá, ", nome)'
+      },
+      {
+        dica: 'Use <code>para</code> para repetir comandos um número fixo de vezes.',
+        exemplo: 'inteiro i\npara i de 1 até 5 faça\n  escreva(i)\nfimpara'
+      },
+      {
+        dica: 'Use <code>enquanto</code> para repetir enquanto uma condição for verdadeira.',
+        exemplo: 'inteiro x\nx = 1\nenquanto x <= 3 faça\n  escreva(x)\n  x = x + 1\nfimenquanto'
+      },
+      {
+        dica: 'Tome decisões com <code>se</code>, <code>senao se</code> e <code>senao</code>.',
+        exemplo: 'inteiro nota\nleia(nota)\nse nota >= 7 entao\n  escreva("Aprovado")\nsenao\n  escreva("Reprovado")\nfimse'
+      },
+      {
+        dica: 'Você pode concatenar textos usando vírgula dentro do escreva.',
+        exemplo: 'cadeia nome\nleia(nome)\nescreva("Bem-vindo, ", nome)' 
+      }
+    ];
+    let dicaAtual = 0;
+    function mostrarDica(idx) {
+      const dica = dicas[idx];
+      document.getElementById('dicaTexto').innerHTML = dica.dica;
+      document.getElementById('dicaExemplo').innerText = dica.exemplo;
+    }
+    function proximaDica() {
+      dicaAtual = (dicaAtual + 1) % dicas.length;
+      mostrarDica(dicaAtual);
+    }
+    // Troca automática a cada 15 segundos
+    setInterval(proximaDica, 15000);
+    // Mostra a primeira dica ao carregar
+    mostrarDica(dicaAtual);
+
     // Interpretação básica de Portugol
     function runPortugol() {
       const code = document.getElementById('code').value;
