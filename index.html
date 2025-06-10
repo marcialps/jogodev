@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portugol Online - Jogo Educacional</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    header { background: #2d3e50; color: #fff; padding: 20px; text-align: center; }
+    main { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
+    .editor, .output, .chat { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin: 10px; padding: 20px; }
+    .editor { flex: 1 1 400px; min-width: 350px; max-width: 600px; }
+    .output { flex: 1 1 300px; min-width: 250px; max-width: 400px; }
+    .chat { flex: 1 1 300px; min-width: 250px; max-width: 400px; height: 400px; display: flex; flex-direction: column; }
+    textarea { width: 100%; height: 250px; font-family: 'Fira Mono', monospace; font-size: 1em; border-radius: 4px; border: 1px solid #ccc; padding: 10px; }
+    button { background: #2d3e50; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #1a2533; }
+    .output pre { background: #222; color: #0f0; padding: 10px; border-radius: 4px; min-height: 200px; }
+    .chat-messages { flex: 1; overflow-y: auto; margin-bottom: 10px; border: 1px solid #eee; border-radius: 4px; padding: 10px; background: #fafafa; }
+    .chat-input { display: flex; }
+    .chat-input input { flex: 1; padding: 8px; border-radius: 4px 0 0 4px; border: 1px solid #ccc; }
+    .chat-input button { border-radius: 0 4px 4px 0; margin-top: 0; }
+    .dicas { background: #e3f7e3; border-left: 4px solid #4caf50; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Portugol Online - Jogo Educacional</h1>
+    <p>Simule, teste e compartilhe códigos Portugol com sua turma!</p>
+  </header>
+  <main>
+    <section class="editor">
+      <h2>Editor Portugol</h2>
+      <div class="dicas">
+        <b>Dicas:</b> Use comandos como <code>escreva</code>, <code>leia</code>, <code>para</code>, <code>enquanto</code>, <code>se</code>, <code>senao se</code>, <code>senao</code>, <code>faça</code>, <code>inteiro</code>, <code>real</code>, <code>cadeia</code>.<br>
+        Exemplo:<br>
+        <code>
+        inteiro i<br>
+        para i de 1 até 5 faça<br>
+          escreva(i)<br>
+        fimpara
+        </code>
+      </div>
+      <textarea id="code" spellcheck="false">inteiro i
+para i de 1 até 5 faça
+  escreva(i)
+fimpara</textarea>
+      <button onclick="runPortugol()">Executar</button>
+    </section>
+    <section class="output">
+      <h2>Saída</h2>
+      <pre id="output"></pre>
+    </section>
+    <section class="chat">
+      <h2>Chat da Turma</h2>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="200">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    // Interpretação básica de Portugol
+    function runPortugol() {
+      const code = document.getElementById('code').value;
+      const output = document.getElementById('output');
+      let lines = code.split(/\r?\n/);
+      let vars = {};
+      let out = '';
+      let i = 0;
+      let loopStack = [];
+      let reading = false;
+      let readVar = '';
+      function getValue(val) {
+        if (!isNaN(val)) return Number(val);
+        if (vars[val] !== undefined) return vars[val];
+        return val;
+      }
+      function parseLine(line) {
+        line = line.trim();
+        if (line.startsWith('escreva(') || line.startsWith('escreva')) {
+          let toPrint = line.replace('escreva(', '').replace(')', '').replace('escreva', '').trim();
+          if (vars[toPrint] !== undefined) out += vars[toPrint] + '\n';
+          else out += toPrint + '\n';
+        } else if (line.startsWith('inteiro ') || line.startsWith('real ') || line.startsWith('cadeia ')) {
+          let [tipo, nome] = line.split(' ');
+          vars[nome.trim()] = 0;
+        } else if (line.startsWith('leia(') || line.startsWith('leia')) {
+          readVar = line.replace('leia(', '').replace(')', '').replace('leia', '').trim();
+          reading = true;
+        } else if (line.startsWith('para ')) {
+          // para i de 1 até 5 faça
+          let m = line.match(/para (\w+) de (\d+) até (\d+) faça/);
+          if (m) {
+            let [_, varName, start, end] = m;
+            vars[varName] = Number(start);
+            loopStack.push({ varName, end: Number(end), startLine: i });
+          }
+        } else if (line === 'fimpara') {
+          let loop = loopStack[loopStack.length - 1];
+          vars[loop.varName]++;
+          if (vars[loop.varName] <= loop.end) {
+            i = loop.startLine;
+          } else {
+            loopStack.pop();
+          }
+        } else if (line.includes('=')) {
+          let [nome, valor] = line.split('=');
+          vars[nome.trim()] = getValue(valor.trim());
+        } else if (line.startsWith('se ')) {
+          // se i > 2 entao
+          let m = line.match(/se (.+) entao/);
+          if (m) {
+            let cond = m[1];
+            let condEval = cond.replace(/(\w+)/g, v => vars[v] !== undefined ? vars[v] : v);
+            if (!eval(condEval)) {
+              // pular até senao se, senao ou fimse
+              while (i < lines.length && !lines[i].trim().startsWith('senao') && lines[i].trim() !== 'fimse') i++;
+            }
+          }
+        } else if (line.startsWith('senao se ')) {
+          // senao se i == 3 entao
+          let m = line.match(/senao se (.+) entao/);
+          if (m) {
+            let cond = m[1];
+            let condEval = cond.replace(/(\w+)/g, v => vars[v] !== undefined ? vars[v] : v);
+            if (!eval(condEval)) {
+              while (i < lines.length && !lines[i].trim().startsWith('senao') && lines[i].trim() !== 'fimse') i++;
+            }
+          }
+        } else if (line.startsWith('senao')) {
+          // executa senao
+        } else if (line === 'fimse') {
+          // fim do bloco se
+        }
+      }
+      for (i = 0; i < lines.length; i++) {
+        if (reading) {
+          let val = prompt('Digite o valor para ' + readVar + ':');
+          vars[readVar] = isNaN(val) ? val : Number(val);
+          reading = false;
+        }
+        parseLine(lines[i]);
+      }
+      output.textContent = out;
+    }
+
+    // Chat simples usando localStorage
+    function renderChat() {
+      const chatMessages = document.getElementById('chatMessages');
+      let msgs = JSON.parse(localStorage.getItem('portugol_chat') || '[]');
+      chatMessages.innerHTML = msgs.map(m => `<div><b>${m.nome}:</b> ${m.msg}</div>`).join('');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    function sendMessage() {
+      let nome = localStorage.getItem('portugol_nome');
+      if (!nome) {
+        nome = prompt('Digite seu nome para o chat:');
+        if (!nome) return;
+        localStorage.setItem('portugol_nome', nome);
+      }
+      const input = document.getElementById('chatInput');
+      let msg = input.value.trim();
+      if (!msg) return;
+      let msgs = JSON.parse(localStorage.getItem('portugol_chat') || '[]');
+      msgs.push({ nome, msg });
+      if (msgs.length > 50) msgs = msgs.slice(-50);
+      localStorage.setItem('portugol_chat', JSON.stringify(msgs));
+      input.value = '';
+      renderChat();
+    }
+    setInterval(renderChat, 1000);
+    renderChat();
+  </script>
+</body>
+</html>
