@@ -24,6 +24,17 @@
   </style>
 </head>
 <body>
+  <div class="atividades" style="background:#e6f2ff; padding:18px 0 10px 0; text-align:center; border-bottom:2px solid #b3e0ff;">
+    <h2 style="margin:0 0 10px 0;">Atividades/Desafios</h2>
+    <select id="atividadeSelect" onchange="selecionarAtividade()" style="font-size:1em; padding:4px 8px;">
+      <option value="0">1. Escreva um algoritmo que some dois números e mostre o resultado.</option>
+      <option value="1">2. Faça um algoritmo que leia o nome do usuário e mostre uma mensagem de boas-vindas.</option>
+      <option value="2">3. Crie um algoritmo que mostre os números de 1 a 10 usando um laço.</option>
+      <option value="3">4. Peça uma nota e informe se o aluno está aprovado (nota >= 7) ou reprovado.</option>
+      <option value="4">5. Some todos os números pares de 1 a 20 e mostre o resultado.</option>
+    </select>
+    <div id="enunciadoAtividade" style="margin-top:10px; font-size:1.1em; font-weight:bold;"></div>
+  </div>
   <header>
     <h1>Portugol Online -- Professor Marcial</h1>
     <p>Desenvolvendo Conhecimento</p>
@@ -231,6 +242,38 @@ fimpara</textarea>
       db.ref('chat').push({ nome, msg });
       input.value = '';
     }
+
+    // Atividades/Desafios
+    const atividades = [
+      {
+        titulo: "1. Escreva um algoritmo que some dois números e mostre o resultado.",
+        enunciado: "Peça dois números ao usuário, some-os e mostre o resultado usando escreva."
+      },
+      {
+        titulo: "2. Faça um algoritmo que leia o nome do usuário e mostre uma mensagem de boas-vindas.",
+        enunciado: "Leia o nome do usuário e mostre: 'Bem-vindo, [nome]!' usando escreva."
+      },
+      {
+        titulo: "3. Crie um algoritmo que mostre os números de 1 a 10 usando um laço.",
+        enunciado: "Utilize um laço para mostrar os números de 1 a 10, um por linha."
+      },
+      {
+        titulo: "4. Peça uma nota e informe se o aluno está aprovado (nota >= 7) ou reprovado.",
+        enunciado: "Leia uma nota e mostre 'Aprovado' se for maior ou igual a 7, senão 'Reprovado'."
+      },
+      {
+        titulo: "5. Some todos os números pares de 1 a 20 e mostre o resultado.",
+        enunciado: "Use um laço para somar todos os números pares de 1 a 20 e mostre o total."
+      }
+    ];
+    function selecionarAtividade() {
+      const idx = document.getElementById('atividadeSelect').value;
+      document.getElementById('enunciadoAtividade').innerText = atividades[idx].enunciado;
+    }
+    // Mostra o enunciado da primeira atividade ao carregar
+    window.addEventListener('DOMContentLoaded', () => {
+      selecionarAtividade();
+    });
   </script>
 </body>
 </html>
