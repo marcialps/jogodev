@@ -24,6 +24,10 @@
   </style>
 </head>
 <body>
+  <header>
+    <h1>Portugol Online -- Professor Marcial</h1>
+    <p>Desenvolvendo Conhecimento</p>
+  </header>
   <div class="atividades" style="background:#e6f2ff; padding:18px 0 10px 0; text-align:center; border-bottom:2px solid #b3e0ff;">
     <h2 style="margin:0 0 10px 0;">Atividades/Desafios</h2>
     <select id="atividadeSelect" onchange="selecionarAtividade()" style="font-size:1em; padding:4px 8px;">
@@ -32,13 +36,14 @@
       <option value="2">3. Crie um algoritmo que mostre os números de 1 a 10 usando um laço.</option>
       <option value="3">4. Peça uma nota e informe se o aluno está aprovado (nota >= 7) ou reprovado.</option>
       <option value="4">5. Some todos os números pares de 1 a 20 e mostre o resultado.</option>
+      <option value="5">6. Verifique se um número é positivo, negativo ou zero usando se/senao se/senao.</option>
+      <option value="6">7. Conte de 10 até 1 usando enquanto.</option>
+      <option value="7">8. Some todos os elementos de um vetor de 5 posições.</option>
+      <option value="8">9. Mostre todos os valores pares de um vetor de 8 posições.</option>
+      <option value="9">10. Leia 5 números e mostre o maior usando vetor e se.</option>
     </select>
     <div id="enunciadoAtividade" style="margin-top:10px; font-size:1.1em; font-weight:bold;"></div>
   </div>
-  <header>
-    <h1>Portugol Online -- Professor Marcial</h1>
-    <p>Desenvolvendo Conhecimento</p>
-  </header>
   <main>
     <section class="editor">
       <h2>Editor Portugol</h2>
@@ -264,6 +269,26 @@ fimpara</textarea>
       {
         titulo: "5. Some todos os números pares de 1 a 20 e mostre o resultado.",
         enunciado: "Use um laço para somar todos os números pares de 1 a 20 e mostre o total."
+      },
+      {
+        titulo: "6. Verifique se um número é positivo, negativo ou zero usando se/senao se/senao.",
+        enunciado: "Leia um número e mostre se ele é positivo, negativo ou zero usando se, senao se e senao."
+      },
+      {
+        titulo: "7. Conte de 10 até 1 usando enquanto.",
+        enunciado: "Utilize um laço enquanto para mostrar os números de 10 até 1, um por linha."
+      },
+      {
+        titulo: "8. Some todos os elementos de um vetor de 5 posições.",
+        enunciado: "Leia 5 números em um vetor e mostre a soma de todos eles."
+      },
+      {
+        titulo: "9. Mostre todos os valores pares de um vetor de 8 posições.",
+        enunciado: "Leia 8 números em um vetor e mostre apenas os valores pares."
+      },
+      {
+        titulo: "10. Leia 5 números e mostre o maior usando vetor e se.",
+        enunciado: "Leia 5 números em um vetor e mostre qual é o maior valor usando se."
       }
     ];
     function selecionarAtividade() {
