@@ -6,7 +6,7 @@
   <title>Portugol Online -- Professor Marcial</title>
   <style>
     body { font-family: Arial, sans-serif; background: #b3e0ff; margin: 0; padding: 0; }
-    header { background: #2d3e50; color: #fff; padding: 20px; text-align: center; }
+    header { background: #000; color: #fff; padding: 20px; text-align: center; }
     main { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
     .editor, .output, .chat { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin: 10px; padding: 20px; }
     .editor { flex: 1 1 400px; min-width: 350px; max-width: 600px; }
@@ -41,6 +41,26 @@
       <option value="7">8. Some todos os elementos de um vetor de 5 posições.</option>
       <option value="8">9. Mostre todos os valores pares de um vetor de 8 posições.</option>
       <option value="9">10. Leia 5 números e mostre o maior usando vetor e se.</option>
+      <option value="10">11. Calcule a média de 4 notas e informe se o aluno foi aprovado (média >= 6).</option>
+      <option value="11">12. Leia 10 números e mostre quantos são maiores que 5.</option>
+      <option value="12">13. Leia um número e mostre sua tabuada de 1 a 10.</option>
+      <option value="13">14. Leia 5 nomes e mostre todos em ordem inversa.</option>
+      <option value="14">15. Leia 8 idades e mostre a média das idades.</option>
+      <option value="15">16. Leia 6 números e mostre apenas os ímpares.</option>
+      <option value="16">17. Leia um texto e conte quantas letras 'a' ele possui.</option>
+      <option value="17">18. Leia 5 números e mostre o menor valor.</option>
+      <option value="18">19. Leia 10 números e mostre quantos são pares e quantos são ímpares.</option>
+      <option value="19">20. Leia um vetor de 7 posições e mostre a soma dos valores das posições pares.</option>
+      <option value="20">21. Leia 3 números e mostre-os em ordem crescente.</option>
+      <option value="21">22. Leia um número e mostre se ele é primo.</option>
+      <option value="22">23. Leia 10 números e mostre a soma dos múltiplos de 3.</option>
+      <option value="23">24. Leia 5 nomes e mostre apenas os que começam com a letra 'M'.</option>
+      <option value="24">25. Leia 6 números e mostre a média dos valores maiores que 10.</option>
+      <option value="25">26. Leia um número e mostre todos os divisores dele.</option>
+      <option value="26">27. Leia 8 números e mostre quantos são negativos.</option>
+      <option value="27">28. Leia 5 números e mostre a soma dos quadrados deles.</option>
+      <option value="28">29. Leia um texto e mostre quantas palavras ele possui.</option>
+      <option value="29">30. Leia 10 números e mostre o segundo maior valor.</option>
     </select>
     <div id="enunciadoAtividade" style="margin-top:10px; font-size:1.1em; font-weight:bold;"></div>
   </div>
@@ -289,6 +309,86 @@ fimpara</textarea>
       {
         titulo: "10. Leia 5 números e mostre o maior usando vetor e se.",
         enunciado: "Leia 5 números em um vetor e mostre qual é o maior valor usando se."
+      },
+      {
+        titulo: "11. Calcule a média de 4 notas e informe se o aluno foi aprovado (média >= 6).",
+        enunciado: "Leia 4 notas, calcule a média e mostre se o aluno foi aprovado (média >= 6) ou reprovado."
+      },
+      {
+        titulo: "12. Leia 10 números e mostre quantos são maiores que 5.",
+        enunciado: "Leia 10 números e mostre quantos deles são maiores que 5."
+      },
+      {
+        titulo: "13. Leia um número e mostre sua tabuada de 1 a 10.",
+        enunciado: "Leia um número e mostre a tabuada dele de 1 a 10."
+      },
+      {
+        titulo: "14. Leia 5 nomes e mostre todos em ordem inversa.",
+        enunciado: "Leia 5 nomes e mostre-os em ordem inversa à leitura."
+      },
+      {
+        titulo: "15. Leia 8 idades e mostre a média das idades.",
+        enunciado: "Leia 8 idades e mostre a média delas."
+      },
+      {
+        titulo: "16. Leia 6 números e mostre apenas os ímpares.",
+        enunciado: "Leia 6 números e mostre apenas os valores ímpares."
+      },
+      {
+        titulo: "17. Leia um texto e conte quantas letras 'a' ele possui.",
+        enunciado: "Leia um texto e mostre quantas letras 'a' ele possui."
+      },
+      {
+        titulo: "18. Leia 5 números e mostre o menor valor.",
+        enunciado: "Leia 5 números e mostre o menor valor entre eles."
+      },
+      {
+        titulo: "19. Leia 10 números e mostre quantos são pares e quantos são ímpares.",
+        enunciado: "Leia 10 números e mostre quantos são pares e quantos são ímpares."
+      },
+      {
+        titulo: "20. Leia um vetor de 7 posições e mostre a soma dos valores das posições pares.",
+        enunciado: "Leia 7 números em um vetor e mostre a soma dos valores das posições pares (índices pares)."
+      },
+      {
+        titulo: "21. Leia 3 números e mostre-os em ordem crescente.",
+        enunciado: "Leia 3 números e mostre-os em ordem crescente."
+      },
+      {
+        titulo: "22. Leia um número e mostre se ele é primo.",
+        enunciado: "Leia um número e mostre se ele é primo ou não."
+      },
+      {
+        titulo: "23. Leia 10 números e mostre a soma dos múltiplos de 3.",
+        enunciado: "Leia 10 números e mostre a soma dos que são múltiplos de 3."
+      },
+      {
+        titulo: "24. Leia 5 nomes e mostre apenas os que começam com a letra 'M'.",
+        enunciado: "Leia 5 nomes e mostre apenas os que começam com a letra 'M'."
+      },
+      {
+        titulo: "25. Leia 6 números e mostre a média dos valores maiores que 10.",
+        enunciado: "Leia 6 números e mostre a média dos que são maiores que 10."
+      },
+      {
+        titulo: "26. Leia um número e mostre todos os divisores dele.",
+        enunciado: "Leia um número e mostre todos os divisores dele."
+      },
+      {
+        titulo: "27. Leia 8 números e mostre quantos são negativos.",
+        enunciado: "Leia 8 números e mostre quantos deles são negativos."
+      },
+      {
+        titulo: "28. Leia 5 números e mostre a soma dos quadrados deles.",
+        enunciado: "Leia 5 números e mostre a soma dos quadrados de cada um."
+      },
+      {
+        titulo: "29. Leia um texto e mostre quantas palavras ele possui.",
+        enunciado: "Leia um texto e mostre quantas palavras ele possui."
+      },
+      {
+        titulo: "30. Leia 10 números e mostre o segundo maior valor.",
+        enunciado: "Leia 10 números e mostre o segundo maior valor entre eles."
       }
     ];
     function selecionarAtividade() {
