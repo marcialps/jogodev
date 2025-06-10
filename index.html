@@ -56,7 +56,24 @@ fimpara</textarea>
       </div>
     </section>
   </main>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
+    // Cole sua configuração do Firebase abaixo:
+    const firebaseConfig = {
+      // Cole aqui os dados do seu projeto Firebase
+        apiKey: "AIzaSyC1VFAbsDNMSLcNXDG23OpzRxWpsjDu3fQ",
+        authDomain: "gamedev-f12d6.firebaseapp.com",
+        databaseURL: "https://gamedev-f12d6-default-rtdb.firebaseio.com",
+        projectId: "gamedev-f12d6",
+        storageBucket: "gamedev-f12d6.firebasestorage.app",
+        messagingSenderId: "431647453121",
+        appId: "1:431647453121:web:87dfde49fdca2c2c1d0940",
+        measurementId: "G-X73L7XREKD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     // Dicas e exemplos variados
     const dicas = [
       {
@@ -188,13 +205,19 @@ fimpara</textarea>
       output.textContent = out;
     }
 
-    // Chat simples usando localStorage
-    function renderChat() {
+    // Chat com Firebase
+    function renderChat(msgs) {
       const chatMessages = document.getElementById('chatMessages');
-      let msgs = JSON.parse(localStorage.getItem('portugol_chat') || '[]');
       chatMessages.innerHTML = msgs.map(m => `<div><b>${m.nome}:</b> ${m.msg}</div>`).join('');
       chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+    let mensagens = [];
+    db.ref('chat').limitToLast(50).on('value', snap => {
+      const val = snap.val();
+      mensagens = [];
+      for (let k in val) mensagens.push(val[k]);
+      renderChat(mensagens);
+    });
     function sendMessage() {
       let nome = localStorage.getItem('portugol_nome');
       if (!nome) {
@@ -205,15 +228,9 @@ fimpara</textarea>
       const input = document.getElementById('chatInput');
       let msg = input.value.trim();
       if (!msg) return;
-      let msgs = JSON.parse(localStorage.getItem('portugol_chat') || '[]');
-      msgs.push({ nome, msg });
-      if (msgs.length > 50) msgs = msgs.slice(-50);
-      localStorage.setItem('portugol_chat', JSON.stringify(msgs));
+      db.ref('chat').push({ nome, msg });
       input.value = '';
-      renderChat();
     }
-    setInterval(renderChat, 1000);
-    renderChat();
   </script>
 </body>
 </html>
